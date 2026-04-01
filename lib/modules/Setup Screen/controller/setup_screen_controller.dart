@@ -3,6 +3,35 @@ import 'package:get/get.dart';
 import 'package:money_desk_app/modules/Setup%20Screen/view/resetup_screen.dart';
 
 class SetupScreenController extends GetxController {
+  void onClose() {
+    controllerr.forEach((textcontroller) => textcontroller.dispose());
+    nodefocus.forEach((node) => node.dispose());
+    print("Resources Disposed Successfully");
+    super.onClose();
+  }
+
+  List<dynamic> keypaditems = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    Icon(
+      Icons.arrow_back,
+      color: Colors.white,
+      size: 45,
+    ),
+    '0',
+    Icon(
+      Icons.arrow_forward,
+      color: Colors.white,
+      size: 45,
+    ),
+  ];
   List<TextEditingController> controllerr =
       List.generate(4, (_) => TextEditingController());
 
@@ -36,7 +65,7 @@ class SetupScreenController extends GetxController {
 
   void validateAndMove() {
     if (isPinComplete()) {
-      Get.to(() => ResetupScreen());
+      Get.off(() => ResetupScreen());
     } else {
       Get.snackbar(
         "Error",

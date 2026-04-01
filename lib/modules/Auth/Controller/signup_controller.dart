@@ -8,10 +8,14 @@ class SignupController extends GetxController {
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   RxBool isPasswordVisible = false.obs;
-  bool isChecked = false;
+  RxBool isChecked = false.obs;
 
   void togglePassword() {
     isPasswordVisible.value = !isPasswordVisible.value;
+  }
+
+  void toggleCheckbox(bool value) {
+    isChecked.value = value;
   }
 
   void signup() {

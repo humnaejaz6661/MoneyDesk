@@ -8,14 +8,7 @@ import 'package:money_desk_app/modules/Auth/View/forgot_password.dart';
 import 'package:money_desk_app/modules/Auth/View/signup.dart';
 import 'package:money_desk_app/my_app_button.dart';
 
-class Login extends StatefulWidget {
-  Login({super.key});
-
-  @override
-  State<Login> createState() => _Login();
-}
-
-class _Login extends State<Login> {
+class Login extends StatelessWidget {
   final LoginController loginController = Get.put(LoginController());
   //Signup({super.key});
 

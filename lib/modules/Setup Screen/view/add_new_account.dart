@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:money_desk_app/core/theme/app_colors.dart';
+import 'package:money_desk_app/modules/Setup%20Screen/controller/add_new_account_controller.dart';
 import 'package:money_desk_app/modules/Setup%20Screen/view/add_new_account.dart';
 import 'package:money_desk_app/modules/Setup%20Screen/view/bank_account_screen.dart';
 import 'package:money_desk_app/my_app_button.dart';
 
-class AddNewAccount extends StatefulWidget {
-  AddNewAccount({super.key});
-
-  @override
-  State<AddNewAccount> createState() => _AddNewAccount();
-}
-
-class _AddNewAccount extends State<AddNewAccount> {
-  String? _selectedValue;
-
-  AddNewAccount addNewAccount = Get.put(AddNewAccount());
+class AddNewAccount extends StatelessWidget {
+  AddNewAccountController addNewAccount = Get.put(AddNewAccountController());
 
   @override
   Widget build(BuildContext context) {
@@ -108,39 +100,48 @@ class _AddNewAccount extends State<AddNewAccount> {
                     SizedBox(
                       height: 20,
                     ),
-                    DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
+                    SizedBox(
+                      width: double.infinity,
+                      child: Obx(
+                        () => DropdownMenu<String>(
+                          width: MediaQuery.of(context).size.width - 32,
+                          //32 pixel minus kr die total width ma sse
+                          menuHeight: 120,
                           hintText: 'Select an option',
-                          hintStyle: TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey),
-                          enabledBorder: OutlineInputBorder(
+                          initialSelection: addNewAccount.selectedValue.value,
+                          menuStyle: MenuStyle(
+                            backgroundColor:
+                                WidgetStatePropertyAll(Colors.white),
+                          ),
+                          textStyle: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
+                          inputDecorationTheme: InputDecorationTheme(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 18),
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide(color: Color(0xffF1F1FA))),
-                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
-                              borderSide:
-                                  BorderSide(color: Color(0xffF1F1FA)))),
-                      value: _selectedValue,
-                      items: ['Primary', 'Secondary']
-                          .map((option) => DropdownMenuItem(
-                                value: option,
-                                child: Text(option),
-                              ))
-                          .toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedValue = value;
-                        });
-                      },
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Please select an option';
-                        }
-                        return null;
-                      },
+                              borderSide: BorderSide(color: Color(0xffF1F1FA)),
+                            ),
+                          ),
+                          dropdownMenuEntries: [
+                            DropdownMenuEntry(
+                                value: 'Primary', label: 'Primary'),
+                            DropdownMenuEntry(
+                                value: 'Secondary', label: 'Secondary'),
+                          ],
+                          onSelected: (value) {
+                            addNewAccount.updateSelection(value);
+                          },
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 40,

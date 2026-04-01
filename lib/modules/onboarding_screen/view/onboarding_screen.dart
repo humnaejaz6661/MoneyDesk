@@ -2,62 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:money_desk_app/core/theme/app_colors.dart';
 import 'package:money_desk_app/modules/Auth/View/login.dart';
+import 'package:money_desk_app/modules/onboarding_screen/controller/onboarding_controller.dart';
 import 'package:money_desk_app/my_app_button.dart';
 import 'package:money_desk_app/modules/onboarding_screen/model/onboarding_components.dart';
 import 'package:money_desk_app/modules/Auth/View/signup.dart';
 import 'package:money_desk_app/modules/onboarding_screen/controller/onboarding_controller.dart';
 
-class OnboardingScreen extends StatefulWidget {
-  OnboardingScreen({super.key});
-
-  @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
-}
-
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class OnboardingScreen extends StatelessWidget {
   final OnboardingController onboardingController =
       Get.put(OnboardingController());
   final PageController pageController = PageController();
-  int currentPage = 0;
+  // int currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: PageView.builder(
-                controller: pageController,
-                onPageChanged: (index) {
-                  setState(() {
-                    currentPage = index;
-                  });
-                },
-                itemCount: onboardingController.pageData.length,
-                itemBuilder: (context, index) {
-                  return OnboardingComponents.textImageWidget(
-                    onboardingController.pageData[index]['image']!,
-                    onboardingController.pageData[index]['title']!,
-                    onboardingController.pageData[index]['description']!,
-                  );
-                },
-              ),
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView.builder(
+              controller: pageController,
+              onPageChanged: (index) {
+                onboardingController.updatePage(index);
+              },
+              itemCount: onboardingController.pageData.length,
+              itemBuilder: (context, index) {
+                return OnboardingComponents.textImageWidget(
+                  onboardingController.pageData[index]['image']!,
+                  onboardingController.pageData[index]['title']!,
+                  onboardingController.pageData[index]['description']!,
+                );
+              },
             ),
-            Row(
+          ),
+          Obx(
+            () => Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
                 onboardingController.pageData.length,
                 (i) => AnimatedContainer(
                   duration: Duration(milliseconds: 300),
-                  height: currentPage == i ? 16 : 12,
-                  width: currentPage == i ? 16 : 12,
+                  height: onboardingController.currentPage.value == i ? 16 : 12,
+                  width: onboardingController.currentPage.value == i ? 16 : 12,
                   margin: EdgeInsets.only(right: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: currentPage == i
+                    color: onboardingController.currentPage.value == i
                         ? Color(0xFF7F3DFF)
                         : Color(0xFFEEE5FF),
                   ),
@@ -65,8 +56,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 40),
-            MyButtons.primarybUtton(
+          ),
+          SizedBox(height: 40),
+          Padding(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: MyButtons.primarybUtton(
               context,
               onTap: () {
                 Get.to(Signup());
@@ -75,8 +69,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               backgroundColor: AppColors.primaryColor,
               foregroundColor: Colors.white,
             ),
-            SizedBox(height: 15),
-            MyButtons.primarybUtton(
+          ),
+          SizedBox(height: 15),
+          Padding(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: MyButtons.primarybUtton(
               context,
               isDark: false,
               foregroundColor: AppColors.primaryColor,
@@ -86,9 +83,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               },
               title: "Log In",
             ),
-            SizedBox(height: 20),
-          ],
-        ),
+          ),
+          SizedBox(height: 20),
+        ],
       ),
     );
   }

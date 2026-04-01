@@ -19,4 +19,9 @@ class OnboardingController extends GetxController {
       "description": "Setup your budget for each category\nso you in control"
     },
   ];
+  var currentPage = 0.obs;
+
+  void updatePage(int index) {
+    currentPage.value = index;
+  }
 }

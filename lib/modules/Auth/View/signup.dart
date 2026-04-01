@@ -7,14 +7,7 @@ import 'package:money_desk_app/modules/Auth/Model/signup_components.dart';
 import 'package:money_desk_app/modules/Auth/View/login.dart';
 import 'package:money_desk_app/my_app_button.dart';
 
-class Signup extends StatefulWidget {
-  Signup({super.key});
-
-  @override
-  State<Signup> createState() => _Signup();
-}
-
-class _Signup extends State<Signup> {
+class Signup extends StatelessWidget {
   final SignupController signupController = Get.put(SignupController());
   //Signup({super.key});
 
@@ -102,19 +95,23 @@ class _Signup extends State<Signup> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Checkbox(
-                            value: signupController.isChecked,
-                            activeColor: Color(0xff8C52FF),
-                            onChanged: (bool? value) {
-                              setState(() {
-                                signupController.isChecked = value!;
-                              });
-                              side:
-                              const BorderSide(
-                                color: Color(0xff8C52FF),
-                                width: 2.0,
-                              );
-                            },
+                          Transform.scale(
+                            scale: 1.2,
+                            child: Obx(() => Checkbox(
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.padded,
+                                  value: signupController.isChecked.value,
+                                  activeColor: AppColors.primaryColor,
+                                  side: const BorderSide(
+                                    color: AppColors.primaryColor,
+                                    width: 1.8,
+                                  ),
+                                  onChanged: (bool? value) {
+                                    if (value != null) {
+                                      signupController.toggleCheckbox(value);
+                                    }
+                                  },
+                                )),
                           ),
                           SizedBox(
                             width: 280,
@@ -139,6 +136,24 @@ class _Signup extends State<Signup> {
                               ),
                             ),
                           ),
+                          // Practice of WidgetSpan with icon and button
+                          // RichText(
+                          //   text: TextSpan(
+                          //       text: "Hii it's me",
+                          //       style: TextStyle(
+                          //         fontFamily: "Inter",
+                          //         fontWeight: FontWeight.w500,
+                          //         color: Colors.black,
+                          //         fontSize: 25,
+                          //       ),
+                          //       children: [
+                          //         WidgetSpan(child: Icon(Icons.arrow_back)),
+                          //         WidgetSpan(
+                          //             child: ElevatedButton(
+                          //                 onPressed: () {},
+                          //                 child: Text("Continue")))
+                          //       ]),
+                          // )
                         ],
                       ),
                     ],

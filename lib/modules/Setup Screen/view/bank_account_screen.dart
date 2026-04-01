@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:money_desk_app/core/theme/app_colors.dart';
+import 'package:money_desk_app/modules/Setup%20Screen/controller/bank_account_controller.dart';
 import 'package:money_desk_app/modules/Setup%20Screen/model/bank_account_screen_components.dart';
 import 'package:money_desk_app/modules/Setup%20Screen/view/add_new_account.dart';
 import 'package:money_desk_app/modules/Setup%20Screen/view/setup_success_screen.dart';
 import 'package:money_desk_app/my_app_button.dart';
 
-class BankAccountScreen extends StatefulWidget {
-  BankAccountScreen({super.key});
-
-  @override
-  State<BankAccountScreen> createState() => _BankAccountScreen();
-}
-
-class _BankAccountScreen extends State<BankAccountScreen> {
-  String? _selectedValue;
+class BankAccountScreen extends StatelessWidget {
+  BankAccountController bankAccountController =
+      Get.put(BankAccountController());
 
   @override
   Widget build(BuildContext context) {
@@ -81,39 +76,31 @@ class _BankAccountScreen extends State<BankAccountScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                          hintText: 'Bank',
-                          hintStyle: TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide(color: Color(0xffF1F1FA))),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide:
-                                  BorderSide(color: Color(0xffF1F1FA)))),
-                      value: _selectedValue,
-                      items: ['Primary', 'Secondary']
-                          .map((option) => DropdownMenuItem(
-                                value: option,
-                                child: Text(option),
-                              ))
-                          .toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedValue = value;
-                        });
-                      },
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Please select an option';
-                        }
-                        return null;
-                      },
+                    SizedBox(
+                      width: double.infinity,
+                      child: Obx(() => DropdownMenu<String>(
+                            width: MediaQuery.of(context).size.width - 32,
+                            hintText: ' Bank',
+                            initialSelection:
+                                bankAccountController.selectedValue.value,
+                            inputDecorationTheme: InputDecorationTheme(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 18),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: const BorderSide(
+                                      color: Color(0xffF1F1FA))),
+                            ),
+                            dropdownMenuEntries: const [
+                              DropdownMenuEntry(
+                                  value: 'Primary', label: 'Primary'),
+                              DropdownMenuEntry(
+                                  value: 'Secondary', label: 'Secondary'),
+                            ],
+                            onSelected: (value) {
+                              bankAccountController.updateSelection(value);
+                            },
+                          )),
                     ),
                     SizedBox(
                       height: 10,

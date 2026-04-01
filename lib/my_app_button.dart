@@ -33,11 +33,10 @@ class MyButtons {
           SizedBox(width: 10),
           Text(
             title,
-            style: TextStyle(
-              fontSize: 18,
-              //color:
-              //  textColor ?? (isDark ? Colors.white : Color(0xFF8C52FF))
-            ),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600
+                //color:
+                //  textColor ?? (isDark ? Colors.white : Color(0xFF8C52FF))
+                ),
           )
         ],
       ),

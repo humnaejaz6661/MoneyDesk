@@ -8,14 +8,7 @@ import 'package:money_desk_app/modules/Auth/Model/signup_components.dart';
 import 'package:money_desk_app/modules/Auth/View/email_page.dart';
 import 'package:money_desk_app/my_app_button.dart';
 
-class forgotpage extends StatefulWidget {
-  forgotpage({super.key});
-
-  @override
-  State<forgotpage> createState() => _forgotpage();
-}
-
-class _forgotpage extends State<forgotpage> {
+class forgotpage extends StatelessWidget {
   ForgotPasswordController forgotPasswordController =
       Get.put(ForgotPasswordController());
 
